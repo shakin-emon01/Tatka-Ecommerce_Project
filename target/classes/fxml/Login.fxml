@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox alignment="CENTER" spacing="20" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ecommerce.controller.LoginController">
+   <padding>
+      <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+   </padding>
+   
+   <!-- Header -->
+   <VBox alignment="CENTER" spacing="10">
+      <Label text="DIU E-Store" styleClass="label-title" />
+      <Label text="Welcome Back!" styleClass="label-subtitle" />
+      <Label text="Sign in to your account to continue shopping" styleClass="label-muted" />
+   </VBox>
+   
+   <!-- Login Form Card -->
+   <VBox styleClass="card" maxWidth="400" alignment="CENTER" spacing="20">
+      <padding>
+         <Insets top="30.0" right="30.0" bottom="30.0" left="30.0" />
+      </padding>
+      
+      <!-- Email Field -->
+      <VBox spacing="5">
+         <Label text="Email Address" />
+         <TextField fx:id="emailField" promptText="Enter your email" styleClass="text-field" />
+      </VBox>
+      
+      <!-- Password Field -->
+      <VBox spacing="5">
+         <Label text="Password" />
+         <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="password-field" />
+      </VBox>
+      
+      <!-- Remember Me and Forgot Password -->
+      <HBox spacing="20" alignment="CENTER_LEFT">
+         <CheckBox fx:id="rememberMeCheckBox" text="Remember me" />
+         <Region HBox.hgrow="ALWAYS" />
+         <Button text="Forgot Password?" styleClass="button-outline" onAction="#handleForgotPassword" />
+      </HBox>
+      
+      <VBox spacing="2" alignment="CENTER_RIGHT">
+         <!-- Login Button -->
+         <Button text="Sign In" styleClass="button" onAction="#handleLogin" />
+
+         <!-- Error Message -->
+         <Label fx:id="errorLabel" styleClass="status-danger" visible="false" wrapText="true" />
+
+         <!-- Register Link -->
+         <HBox alignment="CENTER_RIGHT" spacing="20">
+            <Label text="Don't have an account?" styleClass="label-muted" />
+            <Button text="Sign Up" styleClass="button-outline" onAction="#handleRegister" />
+         </HBox>
+      </VBox>
+   </VBox>
+   
+   <!-- Footer -->
+   <VBox alignment="CENTER" spacing="5">
+      <Label text="© 2025 DIU E-Store. All rights reserved." styleClass="label-muted" />
+   </VBox>
+   
+   <!-- Demo Credentials Info -->
+   <VBox styleClass="alert,alert-info" maxWidth="400" visible="true">
+      <padding>
+         <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+      </padding>
+      <Label text="Demo Credentials:" styleClass="label-subtitle" />
+      <Label text="Admin: abida@email.com | emon@email.com / password123" styleClass="label-muted" />
+      <Label text="Customer: customer@test.com / password" styleClass="label-muted" />
+   </VBox>
+</VBox> 

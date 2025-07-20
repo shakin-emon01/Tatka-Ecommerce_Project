@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<DialogPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ecommerce.controller.CategoryDialogController">
+   <content>
+      <VBox spacing="20" styleClass="vbox">
+         <padding>
+            <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+         </padding>
+         
+         <Label fx:id="dialogTitle" text="Add New Category" styleClass="label-title" />
+         
+         <!-- Category Form -->
+         <GridPane styleClass="grid-pane" hgap="15" vgap="15">
+            <Label text="Category Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field" promptText="Enter category name" />
+            
+            <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextArea fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field" promptText="Enter category description" prefRowCount="3" />
+            
+            <Label text="Image URL:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <TextField fx:id="imageUrlField" styleClass="text-field" promptText="Enter image URL" HBox.hgrow="ALWAYS" />
+               <Button text="Browse" styleClass="button-outline" onAction="#browseImage" />
+            </HBox>
+         </GridPane>
+         
+         <!-- Image Preview -->
+         <VBox spacing="10" styleClass="card">
+            <padding>
+               <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+            </padding>
+            
+            <Label text="Image Preview" styleClass="label-subtitle" />
+            <ImageView fx:id="imagePreview" fitWidth="200" fitHeight="150" preserveRatio="true" styleClass="image-preview" />
+            <Label fx:id="imageStatusLabel" text="No image selected" styleClass="label-muted" />
+         </VBox>
+         
+         <!-- Status Label -->
+         <Label fx:id="statusLabel" text="" styleClass="label-muted" />
+      </VBox>
+   </content>
+   
+   <buttonTypes>
+      <ButtonType fx:constant="CANCEL" />
+      <ButtonType fx:id="saveButton" text="Save" />
+   </buttonTypes>
+</DialogPane> 

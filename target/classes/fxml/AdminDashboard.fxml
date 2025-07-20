@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.beans.property.SimpleStringProperty?>
+<?import javafx.scene.control.TableCell?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ecommerce.controller.AdminDashboardController">
+   
+   <!-- Top Navigation Bar -->
+   <top>
+      <HBox styleClass="nav-bar" alignment="CENTER_LEFT" spacing="20">
+         <padding>
+            <Insets top="10.0" right="20.0" bottom="10.0" left="20.0" />
+         </padding>
+         
+         <Label text="E-Store Admin" styleClass="label-title" style="-fx-text-fill: white;" />
+         
+         <Region HBox.hgrow="ALWAYS" />
+         
+         <Button text="Dashboard" styleClass="nav-button" onAction="#showDashboard" />
+         <Button text="Products" styleClass="nav-button" onAction="#showProducts" />
+         <Button text="Orders" styleClass="nav-button" onAction="#showOrders" />
+         <Button text="Users" styleClass="nav-button" onAction="#showUsers" />
+         <Button text="Categories" styleClass="nav-button" onAction="#showCategories" />
+         
+         <Region HBox.hgrow="ALWAYS" />
+         
+         <!-- User Menu Dropdown -->
+         <MenuButton fx:id="userMenuButton" text="Admin" styleClass="menu-button">
+            <MenuItem text="My Profile" onAction="#showProfile" />
+            <!-- <MenuItem text="Settings" onAction="#showSettings" /> -->
+            <SeparatorMenuItem />
+            <MenuItem text="Logout" onAction="#handleLogout" />
+         </MenuButton>
+      </HBox>
+   </top>
+   
+   <!-- Main Content Area -->
+   <center>
+      <TabPane fx:id="mainTabPane" styleClass="tab-pane">
+         
+         <!-- Dashboard Tab -->
+         <Tab text="Dashboard" closable="false">
+            <VBox spacing="20" styleClass="vbox">
+               <padding>
+                  <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+               </padding>
+               
+               <Label text="Admin Dashboard" styleClass="label-title" />
+               
+               <!-- Statistics Cards -->
+               <GridPane hgap="20" vgap="20">
+                  <VBox styleClass="card" GridPane.columnIndex="0" GridPane.rowIndex="0" spacing="10">
+                     <padding>
+                        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                     </padding>
+                     <Label text="Total Products" styleClass="label-muted" />
+                     <Label fx:id="totalProductsLabel" text="0" styleClass="label-title" />
+                  </VBox>
+                  
+                  <VBox styleClass="card" GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="10">
+                     <padding>
+                        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                     </padding>
+                     <Label text="Total Orders" styleClass="label-muted" />
+                     <Label fx:id="totalOrdersLabel" text="0" styleClass="label-title" />
+                  </VBox>
+                  
+                  <VBox styleClass="card" GridPane.columnIndex="2" GridPane.rowIndex="0" spacing="10">
+                     <padding>
+                        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                     </padding>
+                     <Label text="Total Users" styleClass="label-muted" />
+                     <Label fx:id="totalUsersLabel" text="0" styleClass="label-title" />
+                  </VBox>
+                  
+                  <VBox styleClass="card" GridPane.columnIndex="3" GridPane.rowIndex="0" spacing="10">
+                     <padding>
+                        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                     </padding>
+                     <Label text="Revenue" styleClass="label-muted" />
+                     <Label fx:id="totalRevenueLabel" text="0.00" styleClass="label-title" />
+                  </VBox>
+               </GridPane>
+               
+               <!-- Recent Orders -->
+               <VBox styleClass="card" spacing="15">
+                  <padding>
+                     <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                  </padding>
+                  
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <Label text="Recent Orders" styleClass="label-subtitle" />
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Button text="View All Orders" styleClass="button-outline" onAction="#showOrders" />
+                  </HBox>
+                  
+                  <TableView fx:id="recentOrdersTable" styleClass="table-view" prefHeight="200">
+                     <columns>
+                        <TableColumn text="Order ID" fx:id="recentOrderIdColumn" />
+                        <TableColumn text="Customer" fx:id="recentOrderCustomerColumn" />
+                        <TableColumn text="Date" fx:id="recentOrderDateColumn" />
+                        <TableColumn text="Total" fx:id="recentOrderTotalColumn" />
+                        <TableColumn text="Status" fx:id="recentOrderStatusColumn" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </VBox>
+         </Tab>
+         
+         <!-- Products Tab -->
+         <Tab text="Products" closable="false">
+            <VBox spacing="20" styleClass="vbox">
+               <padding>
+                  <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+               </padding>
+               
+               <HBox alignment="CENTER_LEFT" spacing="15">
+                  <Label text="Product Management" styleClass="label-title" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button text="Add New Product" styleClass="button" onAction="#addNewProduct" />
+               </HBox>
+               
+               <!-- Search and Filter -->
+               <HBox spacing="15" alignment="CENTER_LEFT">
+                  <TextField fx:id="productSearchField" promptText="Search products..." styleClass="text-field" prefWidth="300" />
+                  <ComboBox fx:id="productCategoryFilter" promptText="All Categories" styleClass="combo-box" />
+                  <Button text="Search" styleClass="button" onAction="#searchProducts" />
+                  <Button text="Clear" styleClass="button-outline" onAction="#clearProductFilters" />
+               </HBox>
+               
+               <!-- Products Table -->
+               <TableView fx:id="productsTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn text="ID" fx:id="productIdColumn" />
+                     <TableColumn text="Image" fx:id="productImageColumn" />
+                     <TableColumn text="Name" fx:id="productNameColumn" />
+                     <TableColumn text="Category" fx:id="productCategoryColumn" />
+                     <TableColumn text="Price" fx:id="productPriceColumn" />
+                     <TableColumn text="Stock" fx:id="productStockColumn" />
+                     <TableColumn text="Status" fx:id="productStatusColumn" />
+                     <TableColumn text="Actions" fx:id="productActionsColumn" />
+                  </columns>
+               </TableView>
+            </VBox>
+         </Tab>
+         
+         <!-- Orders Tab -->
+         <Tab text="Orders" closable="false">
+            <VBox spacing="20" styleClass="vbox">
+               <padding>
+                  <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+               </padding>
+               
+               <Label text="Order Management" styleClass="label-title" />
+               
+               <!-- Order Filters -->
+               <HBox spacing="15" alignment="CENTER_LEFT">
+                  <Label text="Status:" />
+                  <ComboBox fx:id="orderStatusFilter" promptText="All Statuses" styleClass="combo-box" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button text="Refresh" styleClass="button" onAction="#refreshOrders" />
+               </HBox>
+               
+               <!-- Orders Table -->
+               <TableView fx:id="ordersTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn text="Order ID" fx:id="orderIdColumn" />
+                     <TableColumn text="Customer" fx:id="orderCustomerColumn" />
+                     <TableColumn text="Date" fx:id="orderDateColumn" />
+                     <TableColumn text="Total" fx:id="orderTotalColumn" />
+                     <TableColumn text="Status" fx:id="orderStatusColumn" />
+                     <TableColumn text="Actions" fx:id="orderActionsColumn" />
+                  </columns>
+               </TableView>
+            </VBox>
+         </Tab>
+         
+         <!-- Users Tab -->
+         <Tab text="Users" closable="false">
+            <VBox spacing="20" styleClass="vbox">
+               <padding>
+                  <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+               </padding>
+               
+               <HBox alignment="CENTER_LEFT" spacing="15">
+                  <Label text="User Management" styleClass="label-title" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button text="Add New User" styleClass="button" onAction="#addNewUser" />
+               </HBox>
+               
+               <!-- User Search -->
+               <HBox spacing="15" alignment="CENTER_LEFT">
+                  <TextField fx:id="userSearchField" promptText="Search users..." styleClass="text-field" prefWidth="300" />
+                  <ComboBox fx:id="userRoleFilter" promptText="All Roles" styleClass="combo-box" />
+                  <Button text="Search" styleClass="button" onAction="#searchUsers" />
+                  <Button text="Clear" styleClass="button-outline" onAction="#clearUserFilters" />
+               </HBox>
+               
+               <!-- Users Table -->
+               <TableView fx:id="usersTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn text="ID" fx:id="userIdColumn" />
+                     <TableColumn text="Name" fx:id="userNameColumn" />
+                     <TableColumn text="Email" fx:id="userEmailColumn" />
+                     <TableColumn text="Role" fx:id="userRoleColumn" />
+                     <TableColumn text="Status" fx:id="userStatusColumn" />
+                     <TableColumn text="Actions" fx:id="userActionsColumn" />
+                  </columns>
+               </TableView>
+            </VBox>
+         </Tab>
+         
+         <!-- Categories Tab -->
+         <Tab text="Categories" closable="false">
+            <VBox spacing="20" styleClass="vbox">
+               <padding>
+                  <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+               </padding>
+               
+               <HBox alignment="CENTER_LEFT" spacing="15">
+                  <Label text="Category Management" styleClass="label-title" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button text="Add New Category" styleClass="button" onAction="#addNewCategory" />
+               </HBox>
+               
+               <!-- Categories Table -->
+               <TableView fx:id="categoriesTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn text="ID" fx:id="categoryIdColumn" />
+                     <TableColumn text="Name" fx:id="categoryNameColumn" />
+                     <TableColumn text="Description" fx:id="categoryDescriptionColumn" />
+                     <TableColumn text="Products" fx:id="categoryProductsColumn" />
+                     <TableColumn text="Actions" fx:id="categoryActionsColumn" />
+                     <TableColumn fx:id="categoryImageColumn" text="Image" />
+                  </columns>
+               </TableView>
+            </VBox>
+         </Tab>
+         
+         <!-- Profile Tab -->
+         <Tab text="Profile" closable="false">
+            <VBox spacing="20" styleClass="vbox">
+               <padding>
+                  <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+               </padding>
+               
+               <Label text="Admin Profile" styleClass="label-title" />
+               
+               <!-- Profile Form -->
+               <GridPane styleClass="grid-pane" hgap="15" vgap="15">
+                  <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                  <TextField fx:id="adminFirstNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field" />
+                  
+                  <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                  <TextField fx:id="adminLastNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field" />
+                  
+                  <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                  <TextField fx:id="adminEmailField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-field" />
+                  
+                  <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                  <TextField fx:id="adminPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="text-field" />
+                  
+                  <Label text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                  <TextArea fx:id="adminAddressField" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="text-field" prefRowCount="3" />
+                  
+                  <Label text="City:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                  <TextField fx:id="adminCityField" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="text-field" />
+                  
+                  <Label text="State:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                  <TextField fx:id="adminStateField" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="text-field" />
+                  
+                  <Label text="Zip Code:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                  <TextField fx:id="adminZipCodeField" GridPane.columnIndex="1" GridPane.rowIndex="7" styleClass="text-field" />
+               </GridPane>
+               
+               <HBox spacing="15" alignment="CENTER_RIGHT">
+                  <Button text="Update Profile" styleClass="button" onAction="#updateAdminProfile" />
+                  <Button text="Change Password" styleClass="button-outline" onAction="#changeAdminPassword" />
+               </HBox>
+            </VBox>
+         </Tab>
+         
+      </TabPane>
+   </center>
+   
+   <!-- Status Bar -->
+   <bottom>
+      <HBox styleClass="nav-bar" alignment="CENTER_LEFT" spacing="20">
+         <padding>
+            <Insets top="5.0" right="20.0" bottom="5.0" left="20.0" />
+         </padding>
+         
+         <Label fx:id="statusLabel" text="Ready" style="-fx-text-fill: white;" />
+         
+         <Region HBox.hgrow="ALWAYS" />
+         
+         <Label text="© 2024 E-Store Admin. All rights reserved." style="-fx-text-fill: white;" />
+      </HBox>
+   </bottom>
+   
+</BorderPane> 
